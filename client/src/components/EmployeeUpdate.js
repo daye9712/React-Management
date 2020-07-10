@@ -114,27 +114,22 @@ class EmployeeAdd extends React.Component {
         const { classes } = this.props;
         return (
             <div>
-                <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
-                    사원 등록
+                <Button variant="contained" color="secondary" onClick={this.handleClickOpen}>
+                    수정
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
-                    <DialogTitle>사원 등록</DialogTitle>
+                    <DialogTitle>사원 정보 수정</DialogTitle>
                     <DialogContent>
-                        <input className={classes.hidden} accept="image/*" id="raised-button-file" type="file" file={this.state.file} value={this.state.fileName} onChange={this.handleFileChange}/><br/>
-                        <label htmlFor="raised-button-file">
-                            <Button variant="contained" color="primary" component="span" name="file">
-                                {this.state.fileName === "" ? "프로필 이미지 선택" : this.state.fileName}
-                            </Button>
-                        </label>
+                        <img src={this.props.empProfile}></img>
                         <br/>
-                        <TextField label="이름" type="text" name="empName" value={this.state.empName} onChange={this.handleValueChange} /><br/>
-                        <TextField label="생년월일" name="birthday" value={this.state.birthday} onChange={this.handleValueChange} /><br/>
-                        <TextField label="성별" type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange} /><br/>
-                        <TextField label="직책" type="text" name="title" value={this.state.title} onChange={this.handleValueChange} /><br/>
-                        <TextField label="전화번호" type="text" name="phone" value={this.state.phone} onChange={this.handleValueChange} /><br/>
-                        <TextField label="이메일" type="text" name="email" value={this.state.email} onChange={this.handleValueChange} /><br/>
-                        <TextField label="입사일" type="text" name="entryDate" value={this.state.entryDate} onChange={this.handleValueChange} /><br/>
-                        <TextField label="소속" type="text" name="deptName" value={this.state.deptName} onChange={this.handleValueChange} /><br/>
+                        <TextField label="이름" type="text" name="empName" value={this.props.empName} onChange={this.handleValueChange} /><br/>
+                        <TextField label="생년월일" name="birthday" value={this.props.birthday} onChange={this.handleValueChange} /><br/>
+                        <TextField label="성별" type="text" name="gender" value={this.props.gender} onChange={this.handleValueChange} /><br/>
+                        <TextField label="직책" type="text" name="title" value={this.props.title} onChange={this.handleValueChange} /><br/>
+                        <TextField label="전화번호" type="text" name="phone" value={this.props.phone} onChange={this.handleValueChange} /><br/>
+                        <TextField label="이메일" type="text" name="email" value={this.props.email} onChange={this.handleValueChange} /><br/>
+                        <TextField label="입사일" type="text" name="entryDate" value={this.props.entryDate} onChange={this.handleValueChange} /><br/>
+                        <TextField label="소속" type="text" name="deptName" value={this.props.deptName} onChange={this.handleValueChange} /><br/>
                     </DialogContent>
                     <DialogActions>
                         <Button variant="contained" color="primary" onClick={this.handleFormSubmit}>등록</Button>

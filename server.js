@@ -25,7 +25,7 @@ const upload = multer({dest: './upload'});
 
 app.get('/api/employees', (req, res) => {
    connection.query(
-     "SELECT * FROM employee WHERE isdeleted = 0",
+     "SELECT * FROM employee WHERE isDeleted = 0",
      (err, rows, fields) => {
        res.send(rows);
      }
@@ -33,14 +33,18 @@ app.get('/api/employees', (req, res) => {
 });
 
 app.use('/image', express.static('./upload'));
-app.post('/api/employees', upload.single('image'), (req, res) => {
-  let sql = 'INSERT INTO employee VALUES (null, ?, ?, ?, ?, ?, now(), 0)';
-  let image = '/image/' + req.file.filename;
-  let name = req.body.name;
+app.post('/api/employees', upload.single('empProfile'), (req, res) => {
+  let sql = 'INSERT INTO employee VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)';
+  let empProfile = '/image/' + req.file.filename;
+  let empName = req.body.empName;
   let birthday = req.body.birthday;
   let gender = req.body.gender;
-  let job = req.body.job;
-  let params = [image, name, birthday, gender, job];
+  let title = req.body.title;
+  let phone = req.body.phone;
+  let email = req.body.email;
+  let entryDate = req.body.entryDate;
+  let deptName = req.body.deptName;
+  let params = [empProfile, empName, title, phone, email, birthday, gender, entryDate, deptName];
   connection.query(sql, params, 
     (err, rows, feilds) => {
       res.send(rows);
@@ -49,7 +53,7 @@ app.post('/api/employees', upload.single('image'), (req, res) => {
 }); 
 
 app.delete('/api/employees/:id', (req, res) => {
-  let sql = 'UPDATE employee SET isdeleted = 1 WHERE id = ?';
+  let sql = 'UPDATE employee SET isDeleted = 1 WHERE empNo = ?';
   let params = [req.params.id];
   connection.query(sql, params, 
     (err, rows, fields) => {

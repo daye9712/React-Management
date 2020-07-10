@@ -27,8 +27,8 @@ class EmployeeDelete extends React.Component {
         });
     }
 
-    deleteEmployee(id) {
-        const url = '/api/employees/' + id;
+    deleteEmployee(empNo) {
+        const url = '/api/employees/' + empNo;
         fetch(url, {
             method: 'DELETE'
         });
@@ -38,7 +38,7 @@ class EmployeeDelete extends React.Component {
     render() {
         return (
             <div>
-                <Button variant="contained" color="secondary" onClick={this.handleClickOpen}>삭제</Button>
+                <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>삭제</Button>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle onClose={this.handleClose}>
                         삭제 경고
@@ -49,7 +49,7 @@ class EmployeeDelete extends React.Component {
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="contained" color="primary" onClick={(e) => {this.deleteEmployee(this.props.id)}}>삭제</Button>
+                        <Button variant="contained" color="primary" onClick={(e) => {this.deleteEmployee(this.props.empNo)}}>삭제</Button>
                         <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
                     </DialogActions>
                 </Dialog>

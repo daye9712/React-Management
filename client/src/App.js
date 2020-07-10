@@ -140,14 +140,16 @@ class App extends Component {
   render() {
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.name.indexOf(this.state.searchKeyword) > -1;
+        return c.empName.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Employee stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
+        return <Employee stateRefresh={this.stateRefresh} key={c.empNo} empNo={c.empNo} empProfile={c.empProfile} 
+                  empName={c.empName} birthday={c.birthday} gender={c.gender} title={c.title} phone={c.phone} email={c.email} 
+                  entryDate={c.entryDate} deptName={c.deptName} />
       });
     }
     const { classes } = this.props;
-    const cellList = ["번호", "프로필", "이름", "생년월일", "성별", "직책", "설정"]
+    const cellList = ["사원 번호", "프로필", "이름", "직책", "전화번호", "이메일", "생년월일", "성별", "입사일", "소속", "설정"]
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -189,7 +191,7 @@ class App extends Component {
             <TableHead>
               <TableRow>
                 {cellList.map(c => {
-                  return <TableCell className={classes.TableHead}>{c}</TableCell>
+                  return <TableCell align="center" className={classes.TableHead}>{c}</TableCell>
                 })}
               </TableRow>
             </TableHead>
@@ -197,7 +199,7 @@ class App extends Component {
               { this.state.employees ? 
                   filteredComponents(this.state.employees) :  
                 <TableRow> 
-                  <TableCell colSpan="6" align="center">
+                  <TableCell colSpan="11" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
                   </TableCell>
                 </TableRow> 
