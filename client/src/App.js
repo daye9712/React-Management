@@ -77,14 +77,15 @@ class App extends Component {
                 <TableCell>생년월일</TableCell>
                 <TableCell>성별</TableCell>
                 <TableCell>직책</TableCell>
+                <TableCell>설정</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               { this.state.employees ? this.state.employees.map(c => {
-                return (<Employee key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}></Employee>); 
+                return (<Employee stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}></Employee>); 
                 }) : 
-                <TableRow>
-                  <TableCell colspan="6" align="center">
+                <TableRow> 
+                  <TableCell colSpan="6" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
                   </TableCell>
                 </TableRow> 

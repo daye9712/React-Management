@@ -25,7 +25,7 @@ const upload = multer({dest: './upload'});
 
 app.get('/api/employees', (req, res) => {
    connection.query(
-     "SELECT * FROM employee",
+     "SELECT * FROM employee WHERE isdeleted = 0",
      (err, rows, fields) => {
        res.send(rows);
      }
@@ -34,7 +34,7 @@ app.get('/api/employees', (req, res) => {
 
 app.use('/image', express.static('./upload'));
 app.post('/api/employees', upload.single('image'), (req, res) => {
-  let sql = 'INSERT INTO employee VALUES (null, ?, ?, ?, ?, ?)';
+  let sql = 'INSERT INTO employee VALUES (null, ?, ?, ?, ?, ?, now(), 0)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;
@@ -46,6 +46,16 @@ app.post('/api/employees', upload.single('image'), (req, res) => {
       res.send(rows);
     }
   );
+}); 
+
+app.delete('/api/employees/:id', (req, res) => {
+  let sql = 'UPDATE employee SET isdeleted = 1 WHERE id = ?';
+  let params = [req.params.id];
+  connection.query(sql, params, 
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
