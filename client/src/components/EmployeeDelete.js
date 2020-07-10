@@ -22,7 +22,7 @@ class EmployeeDelete extends React.Component {
     }
 
     handleClose = () => {
-        this.state = ({
+        this.setState({
             open: false
         });
     }

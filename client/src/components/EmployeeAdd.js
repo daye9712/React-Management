@@ -83,7 +83,7 @@ class EmployeeAdd extends React.Component {
     }
 
     handleClose = () => {
-        this.state = ({
+        this.setState({
             file: null,
             employeeName: '',
             birthday: '',
@@ -91,7 +91,7 @@ class EmployeeAdd extends React.Component {
             job: '',
             fileName: '',
             open: false
-        })
+        });
     }
 
     render() {
