@@ -14,7 +14,7 @@ const styles = theme => ({
     }
 })
 
-class EmployeeAdd extends React.Component {
+class EmployeeUpdate extends React.Component {
 
     constructor(props) {
         super(props);
@@ -29,13 +29,14 @@ class EmployeeAdd extends React.Component {
             birthday: '',
             gender: '',
             fileName: '',
-            open: false
+            open: false,
+            modeState: 'update'
         }
     }
 
     handleFormSubmit = (e) => {
         e.preventDefault()
-        this.addEmployee()
+        this.updateEmployee()
             .then((response) => {
                 console.log(response.data);
                 this.props.stateRefresh();
@@ -51,7 +52,8 @@ class EmployeeAdd extends React.Component {
             birthday: '',
             gender: '',
             fileName: '',
-            open: false
+            open: false,
+            modeState: 'update'
         })
     }
 
@@ -68,7 +70,7 @@ class EmployeeAdd extends React.Component {
         this.setState(nextState);
     }
 
-    addEmployee = () => {
+    updateEmployee = () => {
         const url = 'api/employees';
         const formData = new FormData();
         formData.append('empProfile', this.state.file);
@@ -80,6 +82,9 @@ class EmployeeAdd extends React.Component {
         formData.append('email', this.state.email);
         formData.append('entryDate', this.state.entryDate);
         formData.append('deptName', this.state.deptName);
+        formData.append('modeState', this.state.modeState);
+        formData.append('empNo', this.state.empNo);
+        formData.append('fileName', this.state.fileName);
         const config = {
             headers : {
                 'content-type': 'multipart/form-data'
@@ -90,7 +95,19 @@ class EmployeeAdd extends React.Component {
     
     handleClickOpen = () => {
         this.setState({
-            open: true
+            empNo: this.props.empNo,
+            file: this.props.empProfile,
+            fileName: this.props.fileName,
+            empName: this.props.empName,
+            title: this.props.title,
+            entryDate: this.props.entryDate,
+            phone: this.props.phone,
+            email: this.props.email,
+            deptName: this.props.deptName,
+            birthday: this.props.birthday,
+            gender: this.props.gender,
+            open: true,
+            modeState: 'update'
         });
     }
 
@@ -106,7 +123,8 @@ class EmployeeAdd extends React.Component {
             birthday: '',
             gender: '',
             fileName: '',
-            open: false
+            open: false,
+            modeState: 'update'
         });
     }
 
@@ -120,16 +138,22 @@ class EmployeeAdd extends React.Component {
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle>사원 정보 수정</DialogTitle>
                     <DialogContent>
-                        <img src={this.props.empProfile}></img>
-                        <br/>
-                        <TextField label="이름" type="text" name="empName" value={this.props.empName} onChange={this.handleValueChange} /><br/>
-                        <TextField label="생년월일" name="birthday" value={this.props.birthday} onChange={this.handleValueChange} /><br/>
-                        <TextField label="성별" type="text" name="gender" value={this.props.gender} onChange={this.handleValueChange} /><br/>
-                        <TextField label="직책" type="text" name="title" value={this.props.title} onChange={this.handleValueChange} /><br/>
-                        <TextField label="전화번호" type="text" name="phone" value={this.props.phone} onChange={this.handleValueChange} /><br/>
-                        <TextField label="이메일" type="text" name="email" value={this.props.email} onChange={this.handleValueChange} /><br/>
-                        <TextField label="입사일" type="text" name="entryDate" value={this.props.entryDate} onChange={this.handleValueChange} /><br/>
-                        <TextField label="소속" type="text" name="deptName" value={this.props.deptName} onChange={this.handleValueChange} /><br/>
+                        <input className={classes.hidden} accept="image/*" id="raised-button-file" type="file" file={this.state.file} value={this.state.fileName} onChange={this.handleFileChange}/><br/>
+                        <img src={this.state.file} alt="profile"/><br/>
+                        <label htmlFor="raised-button-file">
+                            <Button variant="contained" color="primary" component="span" name="file">
+                                프로필 사진 수정
+                            </Button>
+                        </label>
+                        <br/><br/>
+                        <TextField label="이름" type="text" name="empName" value={this.state.empName} onChange={this.handleValueChange} /><br/>
+                        <TextField label="생년월일" name="birthday" value={this.state.birthday} onChange={this.handleValueChange} /><br/>
+                        <TextField label="성별" type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange} /><br/>
+                        <TextField label="직책" type="text" name="title" value={this.state.title} onChange={this.handleValueChange} /><br/>
+                        <TextField label="전화번호" type="text" name="phone" value={this.state.phone} onChange={this.handleValueChange} /><br/>
+                        <TextField label="이메일" type="text" name="email" value={this.state.email} onChange={this.handleValueChange} /><br/>
+                        <TextField label="입사일" type="text" name="entryDate" value={this.state.entryDate} onChange={this.handleValueChange} /><br/>
+                        <TextField label="소속" type="text" name="deptName" value={this.state.deptName} onChange={this.handleValueChange} /><br/>
                     </DialogContent>
                     <DialogActions>
                         <Button variant="contained" color="primary" onClick={this.handleFormSubmit}>등록</Button>
@@ -142,4 +166,4 @@ class EmployeeAdd extends React.Component {
 
 }
 
-export default withStyles(styles)(EmployeeAdd);
+export default withStyles(styles)(EmployeeUpdate);

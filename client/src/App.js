@@ -20,6 +20,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const styles = theme => ({
+  
   root: {
     width: '100%',
     minWidth: 1000
@@ -140,12 +141,17 @@ class App extends Component {
   render() {
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.empName.indexOf(this.state.searchKeyword) > -1;
+        return (c.empName.indexOf(this.state.searchKeyword) > -1) || (c.title.indexOf(this.state.searchKeyword) > -1)
+            || (c.phone.indexOf(this.state.searchKeyword) > -1)
+            || (c.deptName.indexOf(this.state.searchKeyword) > -1)
+            || (c.email.indexOf(this.state.searchKeyword) > -1)
+            || (c.gender.indexOf(this.state.searchKeyword) > -1)
+            || (c.entryDate.indexOf(this.state.searchKeyword) > -1);
       });
       return data.map((c) => {
         return <Employee stateRefresh={this.stateRefresh} key={c.empNo} empNo={c.empNo} empProfile={c.empProfile} 
                   empName={c.empName} birthday={c.birthday} gender={c.gender} title={c.title} phone={c.phone} email={c.email} 
-                  entryDate={c.entryDate} deptName={c.deptName} />
+                  entryDate={c.entryDate} deptName={c.deptName}/>
       });
     }
     const { classes } = this.props;

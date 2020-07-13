@@ -34,22 +34,56 @@ app.get('/api/employees', (req, res) => {
 
 app.use('/image', express.static('./upload'));
 app.post('/api/employees', upload.single('empProfile'), (req, res) => {
-  let sql = 'INSERT INTO employee VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)';
-  let empProfile = '/image/' + req.file.filename;
-  let empName = req.body.empName;
-  let birthday = req.body.birthday;
-  let gender = req.body.gender;
-  let title = req.body.title;
-  let phone = req.body.phone;
-  let email = req.body.email;
-  let entryDate = req.body.entryDate;
-  let deptName = req.body.deptName;
-  let params = [empProfile, empName, title, phone, email, birthday, gender, entryDate, deptName];
-  connection.query(sql, params, 
-    (err, rows, feilds) => {
-      res.send(rows);
+
+  if( req.body.modeState === 'update' ) {
+
+    let sql = 'UPDATE employee SET empProfile= ?, empName = ?, title = ?, phone = ?, email = ?, birthday = ?, gender = ?, entryDate = ?, deptName = ? WHERE empNo= ? ';
+
+    let empProfile = "";
+    let empName = req.body.empName;
+    let birthday = req.body.birthday;
+    let gender = req.body.gender;
+    let title = req.body.title;
+    let phone = req.body.phone;
+    let email = req.body.email;
+    let entryDate = req.body.entryDate;
+    let deptName = req.body.deptName;
+    let empNo = req.body.empNo;
+    let params = ""
+  
+    try {
+      empProfile = '/image/' + req.file.filename;
+      params = [empProfile, empName, title, phone, email, birthday, gender, entryDate, deptName, empNo];
+    } catch {
+      sql = 'UPDATE employee SET empName = ?, title = ?, phone = ?, email = ?, birthday = ?, gender = ?, entryDate = ?, deptName = ? WHERE empNo= ? ';
+      params =  [empName, title, phone, email, birthday, gender, entryDate, deptName, empNo];
     }
-  );
+
+    connection.query(sql, params, 
+      (err, rows, feilds) => {
+        res.send(rows);
+      }
+    );
+
+  } else {
+
+    let sql = 'INSERT INTO employee VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)';
+    let empProfile = '/image/' + req.file.filename;
+    let empName = req.body.empName;
+    let birthday = req.body.birthday;
+    let gender = req.body.gender;
+    let title = req.body.title;
+    let phone = req.body.phone;
+    let email = req.body.email;
+    let entryDate = req.body.entryDate;
+    let deptName = req.body.deptName;
+    let params = [empProfile, empName, title, phone, email, birthday, gender, entryDate, deptName];
+    connection.query(sql, params, 
+      (err, rows, feilds) => {
+        res.send(rows);
+      }
+    );
+  }
 }); 
 
 app.delete('/api/employees/:id', (req, res) => {
